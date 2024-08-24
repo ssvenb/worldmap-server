@@ -12,7 +12,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS leds (
                longitude INT,
                latitude INT
                );''')
-print("Database leds successfully created or already exists")
+print("Table leds successfully created or already exists")
 
 cursor.execute("INSERT INTO leds (register, number, country, longitude, latitude) VALUES (8, 1, 'Poland', 4, 11)")
 cursor.execute("INSERT INTO leds (register, number, country, longitude, latitude) VALUES (8, 2, 'Netherlands', 4, 10)")
@@ -172,7 +172,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS neopixels (
                longitude INT,
                latitude INT
                );''')
-print("Database neopixels successfully created or already exists")
+print("Table neopixels successfully created or already exists")
 
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (0, 2, 15)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (1, 2, 14)")
@@ -256,6 +256,21 @@ cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (78, 
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (79, 9, 7)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (80, 8, 6)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (81, 7, 5)")
+
+cursor.execute('''CREATE TABLE IF NOT EXISTS groups (
+               name VARCHAR(255),
+               color VARCHAR(6),
+               ledbits_0 INT,
+               ledbits_1 INT,
+               ledbits_2 INT,
+               ledbits_3 INT,
+               ledbits_4 INT,
+               ledbits_5 INT,
+               ledbits_6 INT,
+               ledbits_7 INT,
+               ledbits_8 INT
+               );''')
+print("Table groups successfully created or already exists")
 
 connection.commit()
 connection.close()
