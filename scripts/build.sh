@@ -32,7 +32,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/home/weltkarte/worldmap-server/.venv/bin/python3 /home/weltkarte/worldmap-server/src/server.py
+ExecStart=/home/weltkarte/worldmap-server/.venv/bin/python3 -m worldmap_server
 WorkingDirectory=/home/weltkarte/worldmap-server/
 User=root
 Group=root

@@ -191,7 +191,7 @@ cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (13, 
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (14, 5, 10)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (15, 6, 11)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (16, 6, 10)")
-cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (17, 9, 10)")
+cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (17, 6, 10)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (18, 6, 7)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (19, 7, 8)")
 cursor.execute("INSERT INTO neopixels (number, longitude, latitude) VALUES (20, 8, 9)")

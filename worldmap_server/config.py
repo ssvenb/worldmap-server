@@ -2,7 +2,7 @@ class Config:
     def __init__(self):
         self.db_path = "/home/weltkarte/worldmap-server/db.db"
         self.axis_sections = {
-            "latitude": 19,
+            "latitude": 20,
             "longitude": 13
         }
         self.led_count = 82
