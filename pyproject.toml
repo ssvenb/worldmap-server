@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "worldmap-server"
+version = "0.1.0"
+description = "Flask Server for the worldmap project designed to run on a Raspberry Pi Zero"
+authors = [
+    {name = "Sven Blanke"}
+]
+readme = "README.md"
+keywords = ["worldmap"]
+requires-python = ">=3.11"
+dependencies = [
+    "flask==3.0.3",
+    "adafruit-circuitpython-neopixel==6.3.11",
+]

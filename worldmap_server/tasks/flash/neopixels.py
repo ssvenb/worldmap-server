@@ -1,6 +1,6 @@
-from ..abstract_task import FlashTask, ColorTask
-from ..utils import try_start_task, hex_to_rgb, InvalidInputParamsException
-from ..config import Config
+from ...abstract_task import FlashTask, ColorTask
+from ...utils import try_start_task, hex_to_rgb, InvalidInputParamsException
+from ...config import Config
 
 CONFIG = Config()
 
@@ -34,7 +34,7 @@ class NeopixelFlashTask(FlashTask, ColorTask):
         self._modify_lights(pixels["delete"], self.colors[1], self.colors[0])
 
 def run(taskManager, pixels, args):
-    return try_start_task(taskManager, NeopixelFlashTask(pixels, args))
+    return try_start_task(taskManager, NeopixelFlashTask(pixels, args), pixels)
 
 def get_ui_types():
     return NeopixelFlashTask(None, {}).ui_types

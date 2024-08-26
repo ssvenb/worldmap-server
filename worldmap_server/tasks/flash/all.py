@@ -1,6 +1,6 @@
-from .flash_leds import LedFlashTask
-from .flash_neopixels import NeopixelFlashTask
-from ..utils import try_start_task
+from .leds import LedFlashTask
+from .neopixels import NeopixelFlashTask
+from ...utils import try_start_task
 
 class AllFlashTask(NeopixelFlashTask, LedFlashTask):
     def __init__(self, pixels, args):
@@ -21,7 +21,7 @@ class AllFlashTask(NeopixelFlashTask, LedFlashTask):
         LedFlashTask.modify_lights(self, lights["leds"])
 
 def run(taskManager, pixels, args):
-    return try_start_task(taskManager, AllFlashTask(pixels, args))
+    return try_start_task(taskManager, AllFlashTask(pixels, args), pixels)
 
 def get_ui_types():
     return AllFlashTask(None, {}).ui_types

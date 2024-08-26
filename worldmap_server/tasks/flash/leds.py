@@ -1,6 +1,6 @@
-from ..abstract_task import FlashTask
-from .. import ledmodule
-from ..utils import try_start_task
+from ...abstract_task import FlashTask
+from ... import ledmodule
+from ...utils import try_start_task
 
 class LedFlashTask(FlashTask):
     def __init__(self, pixels, args):
@@ -18,7 +18,7 @@ class LedFlashTask(FlashTask):
         ledmodule.light(bitmap)
 
 def run(taskManager, pixels, args):
-    return try_start_task(taskManager, LedFlashTask(pixels, args))
+    return try_start_task(taskManager, LedFlashTask(pixels, args), pixels)
 
 def get_ui_types():
     return LedFlashTask(None, {}).ui_types

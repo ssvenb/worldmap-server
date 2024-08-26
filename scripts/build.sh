@@ -18,9 +18,7 @@ gcc ledmodule.c -shared -o ledmodule.so -lwiringPi -I/usr/include/python3.11
 
 # Create virtual environment and install modules
 python3 -m venv .venv
-source .venv/bin/activate
-pip install adafruit-circuitpython-neopixel
-pip install flask
+.venv/bin/pip install .
 
 # Initialize database
 python3 scripts/init_db.py

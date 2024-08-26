@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: worldmap-server
+Version: 0.1.0
+Summary: Flask Server for the worldmap project designed to run on a Raspberry Pi Zero
+Author: Sven Blanke
+Keywords: worldmap
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: flask==3.0.3
+Requires-Dist: adafruit-circuitpython-neopixel==6.3.11
+
+# worldmap-server

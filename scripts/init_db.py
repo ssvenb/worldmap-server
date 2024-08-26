@@ -272,5 +272,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS groups (
                );''')
 print("Table groups successfully created or already exists")
 
+cursor.execute('''CREATE TABLE IF NOT EXISTS colors ( color VARCHAR(6) UNIQUE );''')
+print("Table colors successfully created or already exists")
+
 connection.commit()
 connection.close()
