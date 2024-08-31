@@ -1,27 +1,20 @@
-from .leds import LedFlashTask
-from .neopixels import NeopixelFlashTask
-from ...utils import try_start_task
+from . import leds
+from . import neopixels
 
-class AllFlashTask(NeopixelFlashTask, LedFlashTask):
-    def __init__(self, pixels, args):
-        NeopixelFlashTask.__init__(self, pixels, args)
-        LedFlashTask.__init__(self, pixels, args)
+class ExecutableTask(neopixels.ExecutableTask, leds.ExecutableTask):
+    def __init__(self, pixels):
+        neopixels.ExecutableTask.__init__(self, pixels)
+        leds.ExecutableTask.__init__(self, pixels)
 
-    def fetch_elements(self, i):
-        pixels = NeopixelFlashTask.fetch_elements(self, i)
-        leds = LedFlashTask.fetch_elements(self, i)
+    def _fetch_elements(self, i):
+        pixels = neopixels.ExecutableTask._fetch_elements(self, i)
+        leds_bitmap = leds.ExecutableTask._fetch_elements(self, i)
         return {
             "add": pixels["add"],
             "delete": pixels["delete"],
-            "leds": leds
+            "leds": leds_bitmap
         }
 
-    def modify_lights(self, lights):
-        NeopixelFlashTask.modify_lights(self, lights)
-        LedFlashTask.modify_lights(self, lights["leds"])
-
-def run(taskManager, pixels, args):
-    return try_start_task(taskManager, AllFlashTask(pixels, args), pixels)
-
-def get_ui_types():
-    return AllFlashTask(None, {}).ui_types
+    def _modify_lights(self, lights):
+        neopixels.ExecutableTask._modify_lights(self, lights)
+        leds.ExecutableTask._modify_lights(self, lights["leds"])

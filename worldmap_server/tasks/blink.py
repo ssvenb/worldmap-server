@@ -1,20 +1,13 @@
 import time
 from ..abstract_task import ColorTask
-from ..utils import try_start_task
 
-class BlinkTask(ColorTask):
-    def __init__(self, pixels, args):
-        super().__init__(pixels, args)
+class ExecutableTask(ColorTask):
+    def __init__(self, pixels):
+        super().__init__(pixels)
 
-    def start(self):
+    def _start(self):
         while True:
-            self.pixels.fill(self.color)
-            time.sleep(self.sleep_time)
+            self.pixels.fill(self.config_params["color"])
+            time.sleep(self.config_params["time"])
             self.pixels.fill((0, 0, 0))
-            time.sleep(self.sleep_time)
-
-def run(taskManager, pixels, args):
-    return try_start_task(taskManager, BlinkTask(pixels, args), pixels)
-
-def get_ui_types():
-    return BlinkTask(None, {}).ui_types
+            time.sleep(self.config_params["time"])

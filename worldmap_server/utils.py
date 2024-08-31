@@ -11,14 +11,6 @@ class InvalidInputParamsException(Exception):
     def get_exc(self):
         return self.status
 
-def try_start_task(taskManager, task, pixels):
-    try:
-        reset(taskManager, pixels)
-        taskManager.start_task(task)
-        return "ok", 200
-    except InvalidInputParamsException as e:
-        return jsonify({"error": e.get_exc()}), 400
-
 def hex_to_rgb(hexa):
     return tuple(int(hexa[i:i+2], 16)  for i in (0, 2, 4))
 
@@ -37,6 +29,12 @@ def all_leds():
     ledmodule.light(bitmap)
 
 def reset(taskManager, pixels):
-    taskManager.terminate_task()
+    taskManager.kill_task()
     kill_leds()
     pixels.fill((0, 0, 0))
+
+def check_color(color):
+    try:
+        return hex_to_rgb(color)
+    except:
+        raise InvalidInputParamsException(f"Color has to be in hex color scheme")
