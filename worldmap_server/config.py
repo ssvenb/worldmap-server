@@ -6,7 +6,7 @@ class Config:
     db_path = "/home/weltkarte/worldmap-server/db.db"
     led_count = 82
     register_count = 9
-    port = 8000
+    port = 80
     axis_sections = {"latitude": 20, "longitude": 13}
     ready_color = "00ff00"
     task = {
