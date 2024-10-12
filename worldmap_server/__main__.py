@@ -4,8 +4,7 @@ import neopixel
 import os
 import signal
 import sys
-from flask import Flask, jsonify
-from .db import DataProvider
+from flask import Flask
 from .utils import kill_leds, all_leds, reset
 from .config import Config
 from .abstract_task import TaskManager
@@ -17,23 +16,26 @@ PIXELS = neopixel.NeoPixel(board.D18, CONFIG.led_count)
 ENDPOINT_IMPORTERS = [TaskModuleImporter, DataModuleImporter]
 
 app = Flask(__name__)
-dataProvider = DataProvider()
 taskManager = TaskManager(PIXELS)
+
 
 @app.route("/leds/all", methods=["GET"])
 def leds_all():
     all_leds()
     return "ok", 200
 
+
 @app.route("/leds/kill", methods=["GET"])
 def leds_kill():
     kill_leds()
     return "ok", 200
 
+
 @app.route("/reset", methods=["GET"])
 def terminate():
     reset(taskManager, PIXELS)
     return "ok", 200
+
 
 @app.route("/shutdown", methods=["GET"])
 def shutdown():
@@ -41,15 +43,18 @@ def shutdown():
     os.system("shutdown now -h")
     return "ok", 200
 
+
 def terminate_handler(signum, frame):
     reset(taskManager, PIXELS)
     sys.exit(0)
+
 
 def import_endpoint_modules():
     for importer_class in ENDPOINT_IMPORTERS:
         importer_class(app, taskManager, PIXELS).import_modules()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     signal.signal(signal.SIGINT, terminate_handler)
     signal.signal(signal.SIGTERM, terminate_handler)
     ledmodule.activate()

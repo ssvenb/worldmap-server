@@ -1,11 +1,9 @@
 import time
 from multiprocessing import Process, Queue
-from .data_provider import DataProvider
 from .config import Config
 from .utils import hex_to_rgb, check_color, InvalidInputParamsException
 from flask import request
 
-DATA_PROVIDER = DataProvider()
 CONFIG = Config()
 
 
@@ -38,7 +36,12 @@ class Task:
     def __init__(self, pixels):
         if not hasattr(self, "arg_list"):
             self.arg_list = [
-                ("time", self._check_float, CONFIG.task["default_time"], "Time has to be of type float")
+                (
+                    "time",
+                    self._check_float,
+                    CONFIG.task["default_time"],
+                    "Time has to be of type float",
+                )
             ]
         self.pixels = pixels
         self.config_params = {}
@@ -50,7 +53,7 @@ class Task:
 
     def _check_float(self, arg):
         return float(arg)
-    
+
     def _check_int(self, arg):
         return int(arg)
 
@@ -62,15 +65,15 @@ class Task:
                 self.config_params[arg] = check(self.args.get(arg))
             except:
                 raise InvalidInputParamsException(error_message)
-            
+
     def _extract_args(self, args):
         self.args = args
         for arg in self.arg_list:
             self._extract_arg(*arg)
-    
+
     def _start(self):
         raise NotImplementedError()
-    
+
     def start(self, args, queue):
         try:
             self._extract_args(args)
@@ -78,12 +81,19 @@ class Task:
             self._start()
         except InvalidInputParamsException as e:
             queue.put(e.get_exc())
-    
+
 
 class ColorTask(Task):
     def __init__(self, pixels):
         super().__init__(pixels)
-        self._append_arg(("color", check_color, hex_to_rgb(CONFIG.task["default_color"]), "Color has to be in hex color scheme"))
+        self._append_arg(
+            (
+                "color",
+                check_color,
+                hex_to_rgb(CONFIG.task["default_color"]),
+                "Color has to be in hex color scheme",
+            )
+        )
 
 
 class FlashTask(Task):
@@ -93,10 +103,23 @@ class FlashTask(Task):
         self.index = 0
         self.lightmap = []
         self.number_sections = CONFIG.axis_sections
-        self.dataProvider = DATA_PROVIDER
         self.axis_keys = list(CONFIG.axis_sections.keys())
-        self._append_arg(("width", self._check_int, CONFIG.task["flash"]["default_width"], "Width has to be of type int"))
-        self._append_arg(("axis", self._check_axis, CONFIG.task["flash"]["default_axis"], f"Axis has to either be {self.axis_keys[0]} or {self.axis_keys[1]}"))
+        self._append_arg(
+            (
+                "width",
+                self._check_int,
+                CONFIG.task["flash"]["default_width"],
+                "Width has to be of type int",
+            )
+        )
+        self._append_arg(
+            (
+                "axis",
+                self._check_axis,
+                CONFIG.task["flash"]["default_axis"],
+                f"Axis has to either be {self.axis_keys[0]} or {self.axis_keys[1]}",
+            )
+        )
 
     def _check_axis(self, axis):
         if axis not in self.axis_keys:
@@ -109,7 +132,7 @@ class FlashTask(Task):
 
     def _fetch_elements(self):
         raise NotImplementedError()
-    
+
     def _count(self):
         if self.direction == "forward":
             self.index += 1

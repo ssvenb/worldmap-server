@@ -1,15 +1,13 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Config:
     db_path = "/home/weltkarte/worldmap-server/db.db"
     led_count = 82
     register_count = 9
-    port = 80
-    axis_sections = {
-        "latitude": 20,
-        "longitude": 13
-    }
+    port = 8000
+    axis_sections = {"latitude": 20, "longitude": 13}
     ready_color = "00ff00"
     task = {
         "default_color": "ffffff",
@@ -17,11 +15,7 @@ class Config:
         "flash": {
             "default_width": 2,
             "default_axis": "latitude",
-            "neopixel": {
-                "default_background_color": "000000"
-            }
+            "neopixel": {"default_background_color": "000000"},
         },
-        "multicolor_transition": {
-            "granularity": 100
-        }
+        "multicolor_transition": {"granularity": 100},
     }

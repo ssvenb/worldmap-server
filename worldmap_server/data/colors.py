@@ -1,7 +1,7 @@
-from ..data_provider import db_connection
-from ..utils import check_color
+from ..utils import check_color, db_connection
 
-class DataProvider():
+
+class DataProvider:
     def __init__(self, taskManager, pixels):
         self.taskManager = taskManager
         self.pixels = pixels
@@ -11,7 +11,7 @@ class DataProvider():
         cursor.execute("SELECT color FROM colors")
         colors = [color[0] for color in cursor.fetchall()]
         return colors
-    
+
     @db_connection
     def delete(self, cursor, color):
         cursor.execute("DELETE FROM color WHERE name=?", (color,))

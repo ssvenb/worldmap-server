@@ -1,11 +1,12 @@
-from ..data_provider import db_connection
+from ..utils import db_connection
 from ..utils import hex_to_rgb, check_color, InvalidInputParamsException
 from .. import ledmodule
 from ..config import Config
 
 CONFIG = Config()
 
-class DataProvider():
+
+class DataProvider:
     def __init__(self, taskManager, pixels):
         self.taskManager = taskManager
         self.pixels = pixels
@@ -15,7 +16,7 @@ class DataProvider():
         cursor.execute("SELECT name FROM groups")
         groups = [name[0] for name in cursor.fetchall()]
         return groups
-    
+
     @db_connection
     def get(self, cursor, name):
         group_dict = {}
@@ -32,34 +33,47 @@ class DataProvider():
                 number = number / 2
                 if bitmap - number >= 0:
                     bitmap = bitmap - number
-                    cursor.execute("SELECT country FROM leds WHERE register=? AND number=?", (register, number))
+                    cursor.execute(
+                        "SELECT country FROM leds WHERE register=? AND number=?",
+                        (register, number),
+                    )
                     group_dict["countries"].append(cursor.fetchall()[0][0])
         return group_dict
-    
+
     @db_connection
     def _get_lights(self, cursor, name):
         cursor.execute("SELECT * FROM groups WHERE name=?", (name,))
         group = cursor.fetchall()[0]
-        bitmap = [group[2], group[3], group[4], group[5], group[6], group[7], group[8], group[9], group[10]]
+        bitmap = [
+            group[2],
+            group[3],
+            group[4],
+            group[5],
+            group[6],
+            group[7],
+            group[8],
+            group[9],
+            group[10],
+        ]
         return hex_to_rgb(group[1]), bitmap
-    
+
     def _group_cannot_exist(self, cursor, name):
         cursor.execute("SELECT * FROM GROUPS WHERE name=?", (name,))
         if len(cursor.fetchall()) > 0:
             raise InvalidInputParamsException("Group already exists")
-        
+
     def _group_needs_to_exist(self, cursor, name):
         cursor.execute("SELECT * FROM GROUPS WHERE name=?", (name,))
         if len(cursor.fetchall()) == 0:
             raise InvalidInputParamsException("Group does not exist")
-    
+
     @db_connection
     def create(self, cursor, name, color, countries):
         self._group_cannot_exist(cursor, name)
         check_color(color)
-        bitmap = self._get_country_bitmap(cursor, countries)
+        bitmap = self._get_country_bitmap(countries)
         cursor.execute(
-            '''INSERT INTO groups (
+            """INSERT INTO groups (
                 name, 
                 color, 
                 ledbits_0, 
@@ -71,8 +85,8 @@ class DataProvider():
                 ledbits_6,
                 ledbits_7,
                 ledbits_8
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-            (name, color, *bitmap)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (name, color, *bitmap),
         )
 
     @db_connection

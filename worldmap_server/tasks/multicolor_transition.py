@@ -5,6 +5,7 @@ from ..config import Config
 
 CONFIG = Config()
 
+
 class ExecutableTask(Task):
     def __init__(self, pixels):
         super().__init__(pixels)
@@ -25,7 +26,7 @@ class ExecutableTask(Task):
                 self.pixels.fill((r, g, b))
                 time.sleep(self.config_params["time"])
             for i in range(self.max_range):
-                g, b = self.transition(i) 
+                g, b = self.transition(i)
                 self.pixels.fill((r, g, b))
                 time.sleep(self.config_params["time"])
             for i in range(self.max_range):

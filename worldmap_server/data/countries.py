@@ -1,7 +1,8 @@
-from ..data_provider import db_connection
+from ..utils import db_connection, get_country_bitmap
 from .. import ledmodule
 
-class DataProvider():
+
+class DataProvider:
     def __init__(self, taskManager, pixels):
         self.taskManager = taskManager
         self.pixels = pixels
@@ -11,8 +12,7 @@ class DataProvider():
         cursor.execute("SELECT country FROM leds")
         countries = [country[0] for country in cursor.fetchall()]
         return countries
-    
-    @db_connection
-    def execute(self, cursor, country):
-        bitmap = self._get_country_bitmap(cursor, [country])
+
+    def execute(self, country):
+        bitmap = get_country_bitmap([country])
         ledmodule.light(bitmap)

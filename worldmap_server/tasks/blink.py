@@ -1,6 +1,7 @@
 import time
 from ..abstract_task import ColorTask
 
+
 class ExecutableTask(ColorTask):
     def __init__(self, pixels):
         super().__init__(pixels)
